@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: rental-platform
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rentaldb
+    username: ${DB_USERNAME:rental_user}
+    password: ${DB_PASSWORD:rental_pass}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate   # schema is owned by Flyway, not Hibernate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+  mail:
+    host: ${MAIL_HOST:smtp.sendgrid.net}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:apikey}
+    password: ${MAIL_PASSWORD:}
+
+server:
+  port: 8080
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:change-this-to-a-long-random-value-in-prod}
+    access-token-expiration-ms: 900000       # 15 min
+    refresh-token-expiration-ms: 604800000   # 7 days
+  cors:
+    allowed-origins: ${CORS_ORIGIN:http://localhost:5173}
+  stripe:
+    secret-key: ${STRIPE_SECRET_KEY:sk_test_placeholder}
+    webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_placeholder}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:tc:postgresql:16:///rentaldb_test
+  flyway:
+    enabled: true
