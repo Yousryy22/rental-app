@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/rentaldb
-    username: ${DB_USERNAME:rental_user}
-    password: ${DB_PASSWORD:rental_pass}
+    username: rental_user
+    password: rental_pass
 
   jpa:
     hibernate:
